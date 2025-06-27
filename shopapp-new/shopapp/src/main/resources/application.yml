@@ -2,6 +2,18 @@ server:
   port: 8088
 
 spring:
+  kafka:
+    client:
+      dns:
+        lookup: use_dns_cache
+    bootstrap-servers: ${KAFKA_BROKER_SERVER:localhost}:${KAFKA_BROKER_PORT:9092}
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      #transaction-id-prefix: tx.
+      properties:
+        "[spring.json.type.mapping]": category:com.project.shopapp.models.Category
+    consumer:
+      value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/ShopApp?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -28,13 +40,13 @@ spring:
       client:
         registration:
           google:
-            client-id: ${GOOGLE_CLIENT_ID}
-            client-secret: ${GOOGLE_CLIENT_SECRET}
+            client-id: ${GOOGLE_CLIENT_ID:4347348}
+            client-secret: ${GOOGLE_CLIENT_SECRET:79794}
             redirect-uri: ${GOOGLE_REDIRECT_URI:http://localhost:4300/auth/google/callback}
             user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
           facebook:
-            client-id: ${FACEBOOK_CLIENT_ID}
-            client-secret: ${FACEBOOK_CLIENT_SECRET}
+            client-id: ${FACEBOOK_CLIENT_ID:49343984}
+            client-secret: ${FACEBOOK_CLIENT_SECRET:4739473}
             redirect-uri: ${FACEBOOK_REDIRECT_URI:http://localhost:4300/auth/facebook/callback}
             auth-uri: https://www.facebook.com/v21.0/dialog/oauth
             token-uri: https://graph.facebook.com/oauth/access_token
